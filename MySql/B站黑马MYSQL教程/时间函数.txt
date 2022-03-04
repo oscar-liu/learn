@@ -1,0 +1,92 @@
+-- 日期函数
+
+-- 获取时间戳
+select UNIX_TIMESTAMP()
+
+-- 将一个字符串转为毫秒值 
+select UNIX_TIMESTAMP('2022-01-19 18:21:00')
+
+-- 将时间毫秒转为指定格式的日期
+select from_unixtime('1642587660', '%Y-%m-%d %H-%i-%s')\
+
+-- 获取当前的年月日
+select curdate()
+select current_date()
+
+-- 获取当前时分秒
+select current_time()
+
+-- 获取年月日时分秒
+select current_timestamp()
+
+-- 从日期字符串获取年月日
+select date('2021-12-11 12:12:12')
+
+--计算时间间隔
+select datediff('2021-01-11', '2022-12-12');
+
+--计算时间差值
+select timediff('2021-12-11 12:12:12', '2021-2-11 12:12:12');
+select timediff('12:12:12', '11:12:12');
+
+
+-- 将字符串转为日期
+select STR_TO_DATE('2021-12-11 12:12:12','%Y-%m-%D %H:%i:%s');
+
+-- 将日期进行减法，日期向前跳转
+select date_sub('2021-3-01', interval 2 day);
+select date_sub('2021-3-2', interval 2 month);
+
+-- 将日期进行加法，日期向右跳
+select date_add('2021-02-1' ,interval 2 month);
+select date_add('2021-02-1', interval 2 day);
+
+-- 从日期中获取时间 [ hour, month, day, hour]
+select extract(hour from '2021-01-22 12:01:00');
+select extract(year from '2021-01-22 12:01:00');
+select extract(month from '2021-01-22 12:01:00');
+
+-- 获取给定日期的最后一天
+select last_day('2021-12-01'); -- 2021-12-31
+
+
+-- 获取指定年份和天数的日期
+select makedate('2022', 53); -- 2022年的第53天
+
+-- 根据日期获取年月日时分秒
+select year('2021-01-22 12:01:00')
+select month('2021-01-22 12:01:00')
+select day('2021-01-22 12:01:00')
+select minute('2021-01-22 12:01:00')
+select QUARTER('2021-01-22 12:01:00') -- 季度
+
+-- 根据日期获取信息
+select DAYOFMONTH('2022-01-18 18:13:00') -- 当月的第几天
+select DAYOFWEEK('2022-01-18 18:13:00')  -- 星期几
+select DAYOFYEAR('2022-01-18 18:13:00')  -- 获取一年的第几天
+
+-- 星期
+select WEEK('2022-01-18') -- 本年的第几个星期
+select WEEKDAY('2022-01-18') -- 获取日期是星期几，0为星期1，1为星期2
+select WEEKOFYEAR('2022-01-18') -- 计算日期是本年的第几个星期，0-53
+select YEARWEEK('2022-01-18') -- 返回年份及第几周 202203,2022年的第3周
+select NOW() -- 返回当前日期和时间
+
+
+select 
+	*,
+	case age
+		when 66 then '绝顶高手'
+		when 22 then '年轻气盛'
+		else '一流高手'
+	end
+	from emp;
+	
+
+
+
+
+
+
+
+

@@ -1,0 +1,174 @@
+# 窗口函数
+
+
+
+```sql
+use mydb1;
+create table emp(
+    emp_id int primary key auto_increment comment '编号',
+    emp_name char(20) not null default '' comment '姓名',
+    salary decimal(10,2) not null default 0 comment '工资',
+    department char(20) not null default '' comment '部门'
+ );
+
+ insert into emp( emp_name, salary, department)
+	values ('张飞', 5000, '蜀国'),
+	 ('赵云', 8000, '蜀国'),
+	 ('关云长', 10000, '蜀国'),
+	 ('刘备', 25000, '蜀国'),
+	 ('孙权', 25000, '吴国'),
+	 ('孙尚香', 15000, '吴国'),
+	 ('刘禅', 5000, '蜀国'),
+	 ('司马', 15000, '魏国'),
+	 ('曹操', 25000, '魏国'),
+	 ('曹丕', 25000, '魏国'),
+	 ('吕布', 35000, '群雄');
+
+-- 将所有名字合并成一行
+select group_concat(emp_name) from emp;
+-- 张飞,赵云,关云长,刘备,孙权,孙尚香,刘禅,司马,曹操,曹丕,吕布
+select group_concat(emp_name SEPARATOR '、') from emp;
+
+-- 指定排序方式和分隔符
+select department, group_concat(emp_name ) from emp group by department;
+select department, group_concat(emp_name order by salary desc) from emp group by department;
+
+
+
+
+
+-- 返回数据库的版本号
+select version()
+
+-- IF语句判断
+select *, if(salary >=25000, '国主', '高级将军') from emp;
+
+
+-- case wen end
+
+use mydb1;
+-- 创建订单表
+create table orders(
+	oid int primary key, 
+	price double, 
+	payType int -- 1微信支付 2支付宝 3其他
+);
+
+use mydb1;
+insert into orders values(1, 1200, 1);
+insert into orders values(2, 1100, 2);
+insert into orders values(3, 800, 3);
+insert into orders values(4, 5200, 1);
+insert into orders values(5, 100, 2);
+
+use mydb1;
+select 
+	*, 
+	CASE payType
+		WHEN 1 THEN '微信支付'
+		WHEN 2 THEN '支付宝'
+		ELSE '其它支付'
+	END as payIntf
+from orders;
+
+
+
+-- 窗口函数 
+
+create table employee(
+	dname varchar(20), -- 部门名称
+	eid varchar(20),
+	ename varchar(20),
+	hiredate date, -- 入职时间
+	salary double -- 薪资
+);
+
+insert into employee values('蜀国', '1001', '刘备', '2021-11-01', 15000);
+insert into employee values('蜀国', '1002', '关羽', '2021-11-02', 5000);
+insert into employee values('蜀国', '1003', '张飞', '2021-11-03', 5000);
+insert into employee values('蜀国', '1004', '赵云', '2021-11-04', 7000);
+insert into employee values('蜀国', '1005', '马超', '2021-11-05', 4000);
+insert into employee values('蜀国', '1006', '黄忠', '2021-11-06', 4000);
+
+insert into employee values('魏国', '1007', '曹操', '2021-11-01', 15000);
+insert into employee values('魏国', '1008', '许禇', '2021-11-01', 3000);
+insert into employee values('魏国', '1009', '典韦', '2021-11-01', 3000);
+insert into employee values('魏国', '1010', '张辽', '2021-11-01', 5000);
+insert into employee values('魏国', '1011', '夏候', '2021-11-01', 5000);
+insert into employee values('魏国', '1012', '司马', '2021-11-01', 8000);
+
+ -- 对每个部门的员工按照薪资排序，并输出排名
+ select 
+	dname, ename, salary,
+	row_number() over(partition by dname order by salary desc) as rn 
+from employee;
+
+ select 
+	dname, ename, salary,
+	row_number() over(partition by dname order by salary desc) as rn,
+	rank() over(partition by dname order by salary desc) as rn2,
+	dense_rank() over(partition by dname order by salary desc) as rn3
+from employee;
+
+-- 开窗聚合函数 
+select 
+	dname, ename, salary,    
+	sum(salary) over (partition by dname order by hiredate) as pv1,
+	count(salary) over (partition by dname order by hiredate) as pv2
+from employee;
+
+select 
+	dname, ename, salary,    
+	sum(salary) over (partition by dname order by hiredate rows between 3 preceding and current row ) as pv1
+from employee;
+
+-- CUME_DIST()
+select 
+	dname, ename, salary,
+	cume_dist() over( order by salary) as rn1,
+	cume_dist() over(partition by dname order by salary) as rn2
+from employee;
+
+-- PERCENT_RANK
+select 
+	dname, ename, salary,
+	rank() over( partition by dname order by salary) as rn1,
+	percent_rank() over(partition by dname order by salary) as rn2
+from employee;
+/*
+	第一行： (1-1) / （6-1） = 0
+	row2: (1-1) / (6-1) = 0
+	row3: (3-1) / (6-1) = 0.4
+*/
+
+-- 前后函数LAG和LEAD
+select 
+	dname, ename, salary, hiredate,
+	lag(hiredate, 1, '2000-01-01') over( partition by dname order by hiredate ) as time1,
+	lag(hiredate, 2) over(partition by dname order by hiredate) as time2
+from employee;
+
+-- 头尾函数 FIRST_VALUE() 和 lAST_VALUE
+select 
+	dname, ename, salary, hiredate,
+	first_value(salary) over( partition by dname order by hiredate ) as first,
+	last_value(salary) over(partition by dname order by hiredate) as last
+from employee;
+
+-- 窗口函数，其他函数
+select 
+	dname, ename, salary, hiredate,
+	nth_value(salary, 2) over( partition by dname order by salary ) as two,
+	nth_value(salary, 3) over(partition by dname order by salary) as three
+from employee;
+
+-- 取出每个部门的第一组员工
+select * from (
+	select 
+		dname, ename, hiredate, salary,
+	ntile(3) over(partition by dname order by hiredate ) as rn
+	from employee
+) t
+	where t.rn  = 1;
+```
+
