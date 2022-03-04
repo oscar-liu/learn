@@ -224,3 +224,39 @@ console.log(Object.prototype.toString.call(s1)) // '[object Symbol]'
 
 拆箱转换会尝试调用valueOf和toString来获得拆箱后的基本类型，如果valueOf和toString都不存在，或者没有返回基本类型，则会产生类型错误TypeError。
 
+示例：
+
+```js
+var o = {
+  valueOf: () => { console.log('valueOf '); return {} },
+  toString: () => { console.log('toString'); return {}}
+}
+o*2
+// valueof
+// toString
+// Uncaught TypeError: can't convert o to number
+```
+
+这里定义了一个对象o，o对象有valueOf和toString两个方法，这两个方法都返回一个对象，然后进行了o*2的运算，这里先执行valueOf，接下来再执行了toString，最后抛出了一个TypeError，说明拆箱转换失败了。
+
+如果是String的折箱转换会优先调用toString。
+
+在ES6之后，还允许对象通过显式指定@@toPrimitive Symbol来覆盖原有的行为。
+
+```js
+
+    var o = {
+        valueOf : () => {console.log("valueOf"); return {}},
+        toString : () => {console.log("toString"); return {}}
+    }
+
+    o[Symbol.toPrimitive] = () => {console.log("toPrimitive"); return "hello"}
+
+
+    console.log(o + "")
+    // toPrimitive
+    // hello
+```
+
+
+
