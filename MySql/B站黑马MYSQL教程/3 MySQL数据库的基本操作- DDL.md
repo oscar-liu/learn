@@ -120,25 +120,33 @@ create table if not exists student (
 
 语法格式：
 
-​		alter table 表名 add 列名 类型(长度) [约束]
+```mysql
+alter table 表名 add 列名 类型(长度) [约束]
+```
 
 示例：
 
-​    	-- 为student表添加一个新字段为：系别 dept 类型为 varchar(20)
+```mysql
+-- 为student表添加一个新字段为：系别 dept 类型为 varchar(20)
+ALTER TABLE student ADD `dept` VARCHAR(20)
+```
 
-​		ALTER TABLE student ADD `dept` VARCHAR(20)
+
 
 ###### 修改列名和类型
 
 语法格式
 
-​		alter table 表名 change 旧列名 新列名 类型(长度) [约束];
+```mysql
+alter table 表名 change 旧列名 新列名 类型(长度) [约束];
+```
 
 示例：
 
-​		-- 为student表的dept字段更换为department varchar(30)
-
-​		ALTER TABLE student change `dept` department VARCHAR(30);
+```mysql
+-- 为student表的dept字段更换为department varchar(30)
+ALTER TABLE student change `dept` department VARCHAR(30);
+```
 
 
 
@@ -159,13 +167,16 @@ alter table table_name modify isdel tinyint(2) after id;
 
 语法格式：
 
-​		alter table 表名 drop 列名;
+```mysql
+alter table 表名 drop 列名;
+```
 
 示例：
 
-​		-- 删除student表名的department列
-
-​		ALTER TABLE student DROP department;
+```mysql
+-- 删除student表名的department列
+ALTER TABLE student DROP department;
+```
 
 
 
@@ -173,10 +184,14 @@ alter table table_name modify isdel tinyint(2) after id;
 
 语法格式：
 
-​		rename table 表名 to 新表名;
+```mysql
+rename table 表名 to 新表名;
+```
 
 示例：
 
-​		-- 将表student 改名成stu
+```mysql
+-- 将表student 改名成stu
+RENAME TABLE student to stu;
+```
 
-​		RENAME TABLE student to stu;
