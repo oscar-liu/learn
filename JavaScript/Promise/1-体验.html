@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise 体验</title>
+</head>
+<body>
+    <button id="btn">Click Event</button>
+
+    <script>
+        const btn = document.getElementById('btn')
+        btn.addEventListener('click', eventFn)
+        function rand(m, n) {
+            return Math.ceil(Math.random() * n)
+        }
+        function eventFn() {
+            const p = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    let n = rand(1,100)
+                    if( n < 30) {
+                        resolve(n)
+                    } else {
+                        reject(n)
+                    }
+                }, 1000);
+            })
+            p.then( (res)=> {
+                console.log('中奖了，恭喜你，中奖号码：' + res)
+            }, (res)=> {
+                console.error('没有中奖,再接再厉！号码：' + res)
+            })
+        }
+    </script>
+</body>
+</html>

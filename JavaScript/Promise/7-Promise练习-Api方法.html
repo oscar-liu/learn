@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise Api方法</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <h1>Promise Api 方法</h1>
+        示例代码：
+        <pre>
+        let p1 = new Promise((resolve, reject) => {
+            resolve('p1 ok')
+        })
+        let p2 = Promise.resolve('p2 success')
+        let p3 = Promise.resolve('p3 success')
+        </pre>
+        
+        <h2>all方法</h2>
+        <pre style="margin-top: 10px;">
+            // all调用
+            const allResult = Promise.all([p1, p2, p3])
+            console.log(allResult)
+        </pre>
+        <p>这段代码会返回一个promise对象有三个成功数据</p>
+
+
+        <h2>race方法</h2>
+        <pre style="margin-top: 10px;">
+
+        // race调用， 谁先改变状态，就返回谁
+        const result = Promise.race([p1, p2, p3])
+        console.log( result) // 返回了p1 ok
+        </pre>
+        <p>谁先返回了状态就返回谁，抢占模式</p>
+    </div>
+
+    <script>
+
+
+        let p1 = new Promise((resolve, reject) => {
+            resolve('p1 ok')
+        })
+        let p2 = Promise.resolve('p2 success')
+        let p3 = Promise.resolve('p3 success')
+
+        // race调用， 谁先改变状态，就返回谁
+        const result = Promise.race([p1, p2, p3])
+        console.log( result)
+
+        // all调用
+        const allResult = Promise.all([p1, p2, p3])
+        console.log(allResult)
+
+        p1.then( res=> {
+            console.log('p1 success then1')
+            // return new Promise((resolve, reject)=> {})
+            return "success"
+        }).then( res => {
+            console.log( 'then2', res )
+        })
+    </script>
+</body>
+</html>

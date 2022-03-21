@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise then 异步方法</title>
+    <script src="../lib/Promise.class.js"></script>
+</head>
+<body>
+    <h2>Promise then 异步方法</h2>
+    <script>
+        let p1 = new Promise((resolve, reject) => {
+            reject('success')
+            console.log(111)
+        })
+        p1.then( value => {
+            console.log(2222)
+        }, rason => {
+            console.log(444)
+        })
+        console.log(3333)
+    </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax Promise</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        
+        <h2>Ajax原生实现</h2>
+        <button type="button" id="btn1" class="btn btn-primary btn-lg">原生Ajax实现</button>
+        <pre style="margin-top:20px;">
+        const url = 'https://api.apiopen.top/getJoke'
+        const btn1 = document.querySelector('#btn1')
+        btn1.addEventListener('click', function() {
+            const xhr = new XMLHttpRequest()
+            xhr.open('GET', url)
+            xhr.send()
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState === 4) {
+                    // 判断响应码
+                    if(xhr.status >= 200 && xhr.status < 300) {
+                        // success
+                        console.log(xhr.response)
+                    } else {
+                        console.error(xhr.status)
+                    }
+                }
+            }
+        })
+        </pre>
+
+        <h2>Promise实现</h2>
+        <button type="button" id="btn2" class="btn btn-success btn-lg">Promise实现</button>
+        <pre style="margin-top:20px;">
+        const btn2 = document.querySelector('#btn2')
+        btn2.addEventListener('click', function() {
+            const p = new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest()
+                xhr.open('GET', url)
+                xhr.send()
+                xhr.onreadystatechange = function() {
+                    if(xhr.readyState === 4) {
+                        // 判断响应码
+                        if(xhr.status >= 200 && xhr.status < 300) {
+                            // success
+                            resolve(xhr.response)
+                        } else {
+                            reject(xhr.status)
+                        }
+                    }
+                }
+            })
+            p.then( res=> {
+                console.dir( res )
+            }, err => {
+                console.error(err)
+            })
+        })
+        </pre>
+
+    </div>
+
+
+<script>
+    const url = 'https://api.apiopen.top/getJoke'
+    const btn1 = document.querySelector('#btn1')
+    btn1.addEventListener('click', function() {
+        const xhr = new XMLHttpRequest()
+        xhr.open('GET', url)
+        xhr.send()
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState === 4) {
+                // 判断响应码
+                if(xhr.status >= 200 && xhr.status < 300) {
+                    // success
+                    console.log(xhr.response)
+                } else {
+                    console.error(xhr.status)
+                }
+            }
+        }
+    })
+
+    const btn2 = document.querySelector('#btn2')
+    btn2.addEventListener('click', function() {
+        const p = new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest()
+            xhr.open('GET', url)
+            xhr.send()
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState === 4) {
+                    // 判断响应码
+                    if(xhr.status >= 200 && xhr.status < 300) {
+                        // success
+                        resolve(xhr.response)
+                    } else {
+                        reject(xhr.status)
+                    }
+                }
+            }
+        })
+        p.then( res=> {
+            console.dir( res )
+        }, err => {
+            console.error(err)
+        })
+    })
+</script>
+
+</body>
+</html>

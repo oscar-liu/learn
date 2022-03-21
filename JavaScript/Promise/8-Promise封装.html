@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise 封装</title>
+    <script src="./lib/Promise.js"></script>
+</head>
+<body>
+    <script>
+        let p = new Promise((resolve, reject) => {
+            // resolve('ok')
+            // reject('err')
+            // throw 'Error'
+            // setTimeout(() => {
+            //     resolve('settimeout ok')
+            //     // reject('settimeout err')
+            // }, 1000);
+        })
+        // const res = p.then( value => {
+        //     console.log( value)
+        //     return 'ok success'
+        // }, reason => {
+        //     console.warn(reason)
+        //     return false
+        // })
+
+        // p.catch( e=> {
+        //     console.warn(e)
+        // })
+        // console.log( res )
+        // p.then( value => {
+        //     console.log( value)
+        // }, reason => {
+        //     console.warn(reason)
+        // })
+
+        // p.then().then( value => {
+        //     console.log(222)
+        // }).then( value => {
+        //     console.log(333)
+        // }).catch(err => {
+        //     console.warn(err)
+        // })
+
+        let p2 = Promise.reject('reject success')
+        console.log(p2)
+        let p3 = Promise.reject( new Promise((resolve, reject)=> {
+            reject('p3 success')
+        }))
+        console.log(p3)
+
+    </script>
+</body>
+</html>

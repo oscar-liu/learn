@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise 封装 api方法</title>
+    <script src="../lib/Promise.class.js"></script>
+</head>
+<body>
+    <h2>Promise Api方法</h2>
+    <ul>
+        <li>resolve</li>
+        <li>reject</li>
+    </ul>
+    <script>
+    let p1 = Promise.resolve('resolve success')
+    console.log(p1)
+    let p2 = Promise.resolve(new Promise((resolve, reject)=> {
+        resolve('Promise resolve success')
+    }))
+    console.log(p2)
+
+    let p3 = Promise.reject('reject Error')
+    console.log(p3)
+    let p4 = Promise.resolve(new Promise((resolve, reject)=> {
+        reject('Promise reject Error')
+    }))
+    console.log(p4)
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise 封装 then方法</title>
+    <script src="../lib/Promise.js"></script>
+</head>
+<body>
+    <h2>Promise then方法</h2>
+    <ul>
+        <li>then</li>
+        <li>catch</li>
+    </ul>
+    <script>
+        let p1 = new Promise((resolve, reject) => {
+            reject('reject success')
+        })
+        p1.then()
+        .catch(err=> {
+            console.warn(err)
+        })
+        console.log(p1)
+    </script>
+</body>
+</html>
