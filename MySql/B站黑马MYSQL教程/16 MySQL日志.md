@@ -84,6 +84,15 @@ binlog_format=STATEMENT
  - 查询日志中记录了客户端所有操作语句，而binlog不包括查询数据的SQL语句
  - 默认情况是不开启查询日志
 
+可以配置文件ny.ini来配置log参数
+
+```sql
+[mysqld]
+log = [dir/filename]
+```
+
+
+
  ```sql
     -- 临时开启查询日志
     set global general_log = 1;
@@ -116,3 +125,46 @@ long_query_time默认值为10秒，最小为0,精度可以到微秒。
     slow_query_log_file	= /var/log/mysql/mysql-slow.log
     long_query_time = 2
 ```
+
+
+
+## 二进制日志
+
+### 查看二进制日志
+
+```sql
+mysqlbinlog log_file-bin.00000001
+```
+
+### 停止二进制日志
+
+```sql
+set SQL_LOG_BIN = 0 | 1
+```
+
+### 删除二进制日志
+
+```sql
+RESET MASTER -- 删除所有二进制日志文件
+PURGE MASTER LOGS TO filename.number -- 删除编号小于number的所有二进制日志文件
+PURGE MASTER LOGS BEFORE 'yyyy-mm-dd hh:MM:ss' -- 删除指定时间之前所创建的二进制日志
+```
+
+## 错误日志
+
+### 修改存放错误日志的目录
+
+```sql
+[mysqld]
+error-bin=[dir/filename]
+```
+
+### 删除错误日志
+
+执行命令mysqladmin命令
+
+```sql
+mysqladmin -u root -p flush-logs
+```
+
+执行此命令后，服务器会先创建一个新的错误日志，然后将旧的错误日志更名为filename.err-old。
