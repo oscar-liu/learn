@@ -1,0 +1,7 @@
+{
+    //presets是一组Plugins的集合。
+    "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react"
+    ]
+}
